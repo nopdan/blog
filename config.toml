@@ -241,10 +241,14 @@ enableGitInfo = true
       enable = true
       #  Waline 评论系统设置
       [params.page.comment.waline]
-        enable = true
+        enable = false
         serverURL = "https://docs-waline.vercel.app"
         visitor = true
         dark = 'body[theme="dark"]'
+      [params.page.comment.twikoo]
+        enable = true
+        evnId = "https://twikoo-flame.vercel.app"
+        
 
     #  第三方库配置
     [params.page.library]
@@ -326,7 +330,7 @@ enableGitInfo = true
     # 位于 "themes/CodeIT/assets/data/cdn/" 目录
     # 可以在你的项目下相同路径存放你自己的数据文件:
     # "assets/data/cdn/"
-    data = ""
+    data = "jsdelivr2.yml"
 
   #  兼容性设置
   [params.compatibility]
