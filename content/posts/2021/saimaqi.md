@@ -10,6 +10,10 @@ tags:
 
 > github 项目地址：<https://github.com/cxcn/saimaqi/>
 
+![](https://p.pstatp.com/origin/pgc-image/105c222902414ff2a23168fb05f2f21f)
+
+12w码表，2kw文本耗时10s。
+
 ## 为什么要写赛码器
 
 - 替代极速赛码器
