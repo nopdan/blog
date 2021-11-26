@@ -153,4 +153,4 @@ jetbrains
 - 国内软件，gui 软件收录较少
 - 安装失败需要卸装后再次安装
 
-[1]: https://p.pstatp.com/origin/pgc-image/37dd5c21acb84720be6e3a8e7d54fc70
+[1]: https://i.loli.net/2021/11/26/da8FIo7H1eUKjm5.png

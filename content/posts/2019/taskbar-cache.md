@@ -18,7 +18,7 @@ sidebar: false
 
 快捷键 win+r, 输入 regedit 打开注册表，找到  
 `HKEY_CURRENT_USER\Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\TrayNotify`  
-删掉下面两项  
+找到以下两个键值`IconStreams`和`PastIconsStream`，将它们的值删除。  
 ![2][]
 
 ## 重启资源管理器
@@ -26,6 +26,6 @@ sidebar: false
 快捷键 ctrl+shift+esc 打开任务管理器，找到 windows 资源管理器，右击重启。  
 ![3][]
 
-[1]: https://p.pstatp.com/origin/pgc-image/d357306da5654cc68b8b490e2fff32eb
-[2]: https://p.pstatp.com/origin/pgc-image/b481afa7d13c4148a05dadda27de076a
-[3]: https://p.pstatp.com/origin/pgc-image/282a10fa02164ba0b604a0f53369ca7e
+[1]: https://i.loli.net/2021/11/26/ZRnJsLxaT1dKi8G.png
+[2]: https://i.loli.net/2021/11/26/Ae8ubLYljKiyxsn.png
+[3]: https://i.loli.net/2021/11/26/BZyhs4me3dcxuiE.png

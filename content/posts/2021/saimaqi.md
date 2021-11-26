@@ -10,9 +10,9 @@ tags:
 
 > github 项目地址：<https://github.com/cxcn/saimaqi/>
 
-![](https://p.pstatp.com/origin/pgc-image/105c222902414ff2a23168fb05f2f21f)
+![](https://i.loli.net/2021/11/26/Fo4VJKqvyPjRWND.png)
 
-12w码表，2kw文本耗时10s。
+![](https://i.loli.net/2021/11/26/3kyp7ZtRhwKONoc.png)
 
 ## 为什么要写赛码器
 

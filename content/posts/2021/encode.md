@@ -6,6 +6,7 @@ categories:
 tags:
   - 编码
   - 想法
+draft: true
 ---
 
 同种文字一般是连续的

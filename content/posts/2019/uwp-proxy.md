@@ -23,7 +23,7 @@ Win 10 的 UWP 应用 (应用商店下载的 APP)，默认是不走代理的 (�
 C:\Users\%username%\AppData\Local\Packages
 ```
 
-![](https://p.pstatp.com/origin/pgc-image/c58e7fc8b96a4271a10fff1bf7828394)
+![](https://i.loli.net/2021/11/26/pDxNFfQYL8sIVnA.png)
 
 2. 命令行输入：
 
@@ -43,7 +43,7 @@ CheckNetIsolation.exe LoopbackExempt -a -n="903DB504.QQWP_a99ra4d2cbcxa"
 HKEY_CURRENT_USER\Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Mappings
 ```
 
-![](https://p.pstatp.com/origin/pgc-image/b1d7f25570974fd2aff7008f2ddac29a)
+![](https://i.loli.net/2021/11/26/EVzc3CHZja4Dq6A.png)
 
 2. 命令行输入：
 
