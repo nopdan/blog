@@ -33,7 +33,7 @@ enableGitInfo = true
   # 网站图片, 用于 Open Graph 和 Twitter Cards
   images = ["/logo.svg"]
   # 开启 PWA 支持
-  enablePWA = true
+  enablePWA = false
 
   #  应用图标配置
   [params.app]
