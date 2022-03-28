@@ -45,7 +45,7 @@ var myFriends = [
     ["https://blog.weearc.top/", "https://blog.weearc.top/image/face.ico", "@weearc", "相离相惜莫相忘，且行且歌且珍惜"],
     ["https://purefkh.xyz/", "https://purefkh-blog-1256555660.cos.ap-chengdu.myqcloud.com/blog/img/avatar.jpeg", "@purefkh", "Fiat Lux."],
     ["https://rea.ink/", "https://rea.ink/head.png", "@倾书", "清风皓月，光景常新"],
-    ["https://ryan4yin.space/", "https://cn.gravatar.com/avatar/2362ce7bdf2845a92240cc2f6609e001?s=240", "@Ryan4Yin", "赞美快乐~"],
+    ["https://thiscute.world/", "https://thiscute.world/avatar/myself.jpg", "@Ryan4Yin", "我错过花，却看见海。"],
     
 ];
 
