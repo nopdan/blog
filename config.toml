@@ -9,13 +9,13 @@ hasCJKLanguage = true
 title = "单单的个人博客"
 
 # 更改使用 Hugo 构建网站时使用的默认主题
-theme = "CodeIT"
+theme = "DoIt"
 
 # 是否使用 git 信息
 enableGitInfo = true
 
 [params]
-  #  CodeIT 主题版本
+  #  DoIt 主题版本
   version = "0.2.X"
   # 网站描述
   description = "分享编程和输入法"
@@ -32,6 +32,8 @@ enableGitInfo = true
   dateFormat = "2006-01-02"
   # 网站图片, 用于 Open Graph 和 Twitter Cards
   images = ["/logo.svg"]
+  # 开启 PWA 支持
+  enablePWA = true
 
   #  应用图标配置
   [params.app]
@@ -50,25 +52,32 @@ enableGitInfo = true
 
   #  搜索配置
   [params.search]
-    enable = false
-    # 搜索引擎的类型 ("lunr", "algolia")
-    type = "lunr"
+    enable = true
+    # 搜索引擎的类型 ("lunr", "algolia", "fuse")
+    type = "fuse"
     # 文章内容最长索引长度
     contentLength = 4000
     # 搜索框的占位提示语
     placeholder = ""
-    #  最大结果数目
+    # 最大结果数目
     maxResultLength = 10
-    #  结果内容片段长度
+    # 结果内容片段长度
     snippetLength = 50
-    #  搜索结果中高亮部分的 HTML 标签
+    # 搜索结果中高亮部分的 HTML 标签
     highlightTag = "em"
-    #  是否在搜索索引中使用基于 baseURL 的绝对路径
+    # 是否在搜索索引中使用基于 baseURL 的绝对路径
     absoluteURL = false
-    [params.search.algolia]
-      index = ""
-      appID = ""
-      searchKey = ""
+    [params.search.fuse]
+      # https://fusejs.io/api/options.html
+      isCaseSensitive = false
+      minMatchCharLength = 2
+      findAllMatches = false
+      location = 0
+      threshold = 0.3
+      distance = 100
+      ignoreLocation = false
+      useExtendedSearch = false
+      ignoreFieldNorm = false
 
   # 页面头部导航栏配置
   [params.header]
@@ -76,6 +85,8 @@ enableGitInfo = true
     desktopMode = "fixed"
     # 移动端导航栏模式 ("fixed", "normal", "auto")
     mobileMode = "auto"
+    # 主题切换模式 ("switch", "select")
+    themeChangeMode = "switch"
     #  页面头部导航栏标题配置
     [params.header.title]
       # LOGO 的 URL
@@ -115,6 +126,12 @@ enableGitInfo = true
     dateFormat = "01-02"
     # RSS 文章数目
     rss = 10
+    # 最近更新文章设置
+    [params.section.recentlyUpdated]
+      enable = false
+      rss = false
+      days = 30
+      maxCount = 10
 
   #  List (目录或标签) 页面配置
   [params.list]
@@ -135,6 +152,8 @@ enableGitInfo = true
       # Gravatar 邮箱，用于优先在主页显示的头像
       gravatarEmail = ""
       # 主页显示头像的 URL
+      # 将你的头像文件放置于 static 或者 assets 目录下
+      # 文件路径是相对于 static 或者 assets 目录的
       avatarURL = "/avatar.png"
       #  主页显示的网站标题 (支持 HTML 格式)
       title = ""
@@ -152,7 +171,7 @@ enableGitInfo = true
       enable = true
       # 主页每页显示文章数量
       paginate = 6
-      #  被 params.page 中的 hiddenFromHomePage 替代
+      # 被 params.page 中的 hiddenFromHomePage 替代
       # 当你没有在文章前置参数中设置 "hiddenFromHomePage" 时的默认行为
       defaultHiddenFromHomePage = false
 
@@ -186,6 +205,10 @@ enableGitInfo = true
     linkToMarkdown = true
     #  是否在 RSS 中显示全文内容
     rssFullText = false
+    # 页面样式 ("normal", "wide")
+    pageStyle = "normal"
+    # 是否在文章开头显示系列导航
+    seriesNavigation = false
     #  目录配置
     [params.page.toc]
       # 是否使用目录
@@ -200,6 +223,10 @@ enableGitInfo = true
       copy = true
       # 默认展开显示的代码行数
       maxShownLines = 20
+    # 表格配置
+    [params.page.table]
+      # 是否开启表格排序
+      sort = true
     # KaTeX 数学公式
     [params.page.math]
       enable = true
@@ -241,27 +268,24 @@ enableGitInfo = true
       enable = true
       #  Waline 评论系统设置
       [params.page.comment.waline]
-        enable = false
+        enable = true
         serverURL = "https://docs-waline.vercel.app"
         visitor = true
-        dark = 'body[theme="dark"]'
+        # dark = 'body[theme="dark"]'
+        dark = 'auto'
+        requiredMeta = ['nick', 'mail']
+        login = 'enable'
+        wordLimit = 0
+        pageSize = 10
+        uploadImage = false
+        highlight = true
+        mathTagSupport = false
+        commentCount = true
       [params.page.comment.twikoo]
-        enable = true
+        enable = false
         evnId = "https://twikoo-flame.vercel.app"
-        
-
-    #  第三方库配置
-    [params.page.library]
-      [params.page.library.css]
-        # someCSS = "some.css"
-        # 位于 "assets/"
-        # 或者
-        # someCSS = "https://cdn.example.com/some.css"
-      [params.page.library.js]
-        # someJavascript = "some.js"
-        # 位于 "assets/"
-        # 或者
-        # someJavascript = "https://cdn.example.com/some.js"
+        visitor = true
+        commentCount = true
     #  页面 SEO 配置
     [params.page.seo]
       # 图片 URL
@@ -270,6 +294,13 @@ enableGitInfo = true
       [params.page.seo.publisher]
         name = ""
         logoUrl = ""
+
+  # 赞赏配置
+  [params.sponsor]
+    enable = false
+    bio = "如果你觉得这篇文章对你有所帮助，欢迎赞赏~"
+    link = "https://www.buymeacoffee.com" # 你的赞赏页面的地址
+    custom = "" # 自定义 HTML 
 
   #  TypeIt 配置
   [params.typeit]
@@ -281,38 +312,6 @@ enableGitInfo = true
     cursorChar = "|"
     # 打字结束之后光标的持续时间 (单位是毫秒, "-1" 代表无限大)
     duration = -1
-
-  # 网站验证代码，用于 Google/Bing/Yandex/Pinterest/Baidu
-  [params.verification]
-    google = ""
-    bing = ""
-    yandex = ""
-    pinterest = ""
-    baidu = ""
-
-  #  网站 SEO 配置
-  [params.seo]
-    # 图片 URL
-    image = ""
-    # 缩略图 URL
-    thumbnailUrl = ""
-
-  #  网站分析配置
-  [params.analytics]
-    enable = false
-    # Google Analytics
-    [params.analytics.google]
-      id = ""
-      # 是否匿名化用户 IP
-      anonymizeIP = true
-    # Fathom Analytics
-    [params.analytics.fathom]
-      id = ""
-      # 自行托管追踪器时的主机路径
-      server = ""
-    #  Plausible Analytics
-    [params.analytics.plausible]
-      domain = ""
 
   #  Cookie 许可配置
   [params.cookieconsent]
@@ -387,9 +386,6 @@ enableGitInfo = true
 
 # 隐私信息配置
 [privacy]
-  #  Google Analytics 相关隐私 (被 params.analytics.google 替代)
-  [privacy.googleAnalytics]
-    # ...
   [privacy.twitter]
     enableDNT = true
   [privacy.youtube]
