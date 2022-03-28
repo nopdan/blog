@@ -28,7 +28,7 @@ jobs:
         run: "hugo --minify"
 
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@4.2.5
+        uses: JamesIves/github-pages-deploy-action@v4.2.5
         with:
           # GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           branch: gh-pages
