@@ -2,7 +2,7 @@ name: build and push hugo site
 
 on:
   push:
-    branches:    
+    branches:
       - main # 只有main分支上有push才执行
 
 env:
@@ -12,26 +12,26 @@ jobs:
   build_deploy:
     runs-on: ubuntu-18.04
     steps:
-    - name: Checkout # 获取源代码
-      uses: actions/checkout@v2
-      with:
-        persist-credentials: false 
-        fetch-depth: 0
-        submodules: true
-        
-    - name: Setup Hugo
-      uses: peaceiris/actions-hugo@v2
-      with:
-        hugo-version: "latest"
+      - name: Checkout # 获取源代码
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          submodules: true
 
-    - name: Build
-      run: "hugo"
-  
-    - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@4.1.1
-      with:
-        # GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        branch: gh-pages
-        folder: public
-        clean: true
-        single-commit: true #不保留历史commit
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: "latest"
+          extended: true
+
+      - name: Build
+        run: "hugo --minify"
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@4.2.5
+        with:
+          # GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          branch: gh-pages
+          folder: public
+          clean: true
+          single-commit: true #不保留历史commit

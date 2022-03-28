@@ -269,12 +269,12 @@ enableGitInfo = true
       #  Waline 评论系统设置
       [params.page.comment.waline]
         enable = true
-        serverURL = "https://docs-waline.vercel.app"
+        serverURL = "https://waline-cx.vercel.app"
         visitor = true
         # dark = 'body[theme="dark"]'
         dark = 'auto'
         requiredMeta = ['nick', 'mail']
-        login = 'enable'
+        login = 'disable'
         wordLimit = 0
         pageSize = 10
         uploadImage = false

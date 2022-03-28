@@ -4,3 +4,6 @@ resources/_gen/
 
 # Hugo
 .hugo_build.lock
+
+# vscode
+.vscode/
