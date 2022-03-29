@@ -35,9 +35,9 @@ toc: false
 可在评论区提交友链申请，格式如下：
 
     站点名称：单单的个人博客
-    站点地址：https://cxcn.xyz/
-    个人形象：https://cxcn.xyz/avatar.webp
-    站点描述：念念不忘，必有回响
+    站点地址：https://noif.cc/
+    个人形象：https://noif.cc/avatar.webp
+    站点描述：人生没有如果，只有后果和结果。
 
 <script type="text/javascript">
 // 以下为样例内容，按照格式可以随意修改

@@ -1,4 +1,4 @@
-baseURL = "https://cxcn.xyz/"
+baseURL = "https://noif.cc/"
 # [en, zh-cn, fr, ...] 设置默认的语言
 defaultContentLanguage = "zh-cn"
 # 网站语言, 仅在这里 CN 大写
@@ -158,7 +158,7 @@ enableGitInfo = true
       #  主页显示的网站标题 (支持 HTML 格式)
       title = ""
       # 主页显示的网站副标题
-      subtitle = "念念不忘，必有回响"
+      subtitle = "人生没有如果，只有后果和结果。"
       #  (HTML format is supported)
       # 是否为副标题显示打字机动画
       typeit = true
@@ -366,7 +366,7 @@ enableGitInfo = true
 [author]
   name = "单单"
   email = "cxprcn@gmail.com"
-  link = "https://cxcn.xyz/"
+  link = "https://noif.cc/"
 
 # 网站地图配置
 [sitemap]
@@ -440,6 +440,6 @@ enableGitInfo = true
     weight = 4
   [[menu.main]]
     name = "Rime文档"
-    url = "/rime/"
+    url = "https://rime.vercel.app/"
     title = ""
     weight = 5
