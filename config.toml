@@ -269,7 +269,7 @@ enableGitInfo = true
       #  Waline 评论系统设置
       [params.page.comment.waline]
         enable = true
-        serverURL = "https://waline-cx.vercel.app"
+        serverURL = "https://tcb-6g839arke025d0d9-1300362698.ap-shanghai.app.tcloudbase.com/waline"
         visitor = true
         # dark = 'body[theme="dark"]'
         dark = 'auto'
@@ -280,11 +280,6 @@ enableGitInfo = true
         uploadImage = false
         highlight = true
         mathTagSupport = false
-        commentCount = true
-      [params.page.comment.twikoo]
-        enable = false
-        evnId = "https://twikoo-flame.vercel.app"
-        visitor = true
         commentCount = true
     #  页面 SEO 配置
     [params.page.seo]
