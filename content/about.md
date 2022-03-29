@@ -36,7 +36,7 @@ toc: false
 
     站点名称：单单的个人博客
     站点地址：https://cxcn.xyz/
-    个人形象：https://cxcn.xyz/avatar.png
+    个人形象：https://cxcn.xyz/avatar.webp
     站点描述：念念不忘，必有回响
 
 <script type="text/javascript">
