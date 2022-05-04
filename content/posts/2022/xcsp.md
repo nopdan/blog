@@ -107,3 +107,7 @@ i、u、e、ai 这几个韵母频率很高，于是星辰采用强制飞键的�
 - zi-zei：贼
 
 特别的，谁 shei 和 shi 重音，这个影响很大，所以建议打正音 shui。
+
+## 测评数据
+
+![](https://tucang.cc/api/image/show/eaf6b72946a6a0e11aafe1b688560646)
