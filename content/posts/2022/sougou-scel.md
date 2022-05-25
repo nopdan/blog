@@ -84,6 +84,11 @@ tags:
 | 2            | 描述信息字节长度   |
 | 由上一项决定 | 描述               |
 
+--- 
+**带英文词库的索引**
+
+从拼音表的长度往后，依次是 abcd。比如表长 413，最大索引`9D 01`，则下一个索引`9E 01`表示字母 a，依次类推。
+
 `golang` 实现：
 
 ```go
@@ -102,7 +107,12 @@ tags:
         var code []string
         for i := 0; 2*i < codeLen; i++ {
             r.Read(tmp)
-            code = append(code, pyTable[bytesToInt(tmp)])
+            theIdx := bytesToInt(tmp)
+            if theIdx >= pyTableLen {
+                code = append(code, string(byte(theIdx-pyTableLen+97)))
+                continue
+            }
+            code = append(code, pyTable[theIdx])
         }
 
         // 读取一个或多个词
