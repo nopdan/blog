@@ -12,6 +12,8 @@ tags:
 
 前面很多空字节的地方不用管，是一些描述信息，词库名、示例词等。
 
+**0x124 跟的 4 个字节是词条数，新的 scel 在文件最后面可能有违禁词（黑名单词）。**
+
 ## 拼音表
 
 直接从 0x1540 开始。
@@ -32,14 +34,50 @@ tags:
 | 2            | 拼音字节的长度                           |
 | 由上一项决定 | 拼音，utf-16le 编码，一个字母占 2 字节。 |
 
-`golang` 实现：
+## 词条
+
+偏移量 0x2628
+
+![](https://tucang.cc/api/image/show/1ccbf630635055b1a5c74949c4ef90ac)
+
+| 占用字节数   | 描述               |
+| ------------ | ------------------ |
+| 2            | 同一个音有多少词   |
+| 2            | 拼音索引的字节长度 |
+| 由上一项决定 | 拼音索引数组       |
+| 2            | 词占用字节数       |
+| 由上一项决定 | 词，utf-16le 编码  |
+| 2            | 描述信息字节长度   |
+| 由上一项决定 | 描述               |
+
+--- 
+**带英文词库的索引**
+
+从拼音表的长度往后，依次是 abcd。比如表长 413，最大索引`9D 01`，则下一个索引`9E 01`表示字母 a，依次类推。
+
+## `golang` 代码实现
 
 ```go
+
+func ParseSougouScel(rd io.Reader) []Pinyin {
+    ret := make([]Pinyin, 0, 1e5)
+    data, _ := ioutil.ReadAll(rd)
+    r := bytes.NewReader(data)
+
+    // utf-16le 转换器
+    decoder := unicode.UTF16(unicode.LittleEndian, unicode.IgnoreBOM).NewDecoder()
+
+    // 读词条数
+    tmp := make([]byte, 4)
+    r.Seek(0x124, 0)
+    r.Read(tmp)
+    dictLen := bytesToInt(tmp)
+
     // 拼音表偏移量
     r.Seek(0x1540, 0)
 
     // 前两个字节是拼音表长度，413
-    tmp := make([]byte, 2)
+    tmp = make([]byte, 2)
     r.Read(tmp)
     pyTableLen := bytesToInt(tmp)
     pyTable := make([]string, pyTableLen)
@@ -66,34 +104,9 @@ tags:
 
         pyTable[idx] = string(py)
     }
-```
 
-## 词条
-
-偏移量 0x2628
-
-![](https://tucang.cc/api/image/show/1ccbf630635055b1a5c74949c4ef90ac)
-
-| 占用字节数   | 描述               |
-| ------------ | ------------------ |
-| 2            | 同一个音有多少词   |
-| 2            | 拼音索引的字节长度 |
-| 由上一项决定 | 拼音索引数组       |
-| 2            | 词占用字节数       |
-| 由上一项决定 | 词，utf-16le 编码  |
-| 2            | 描述信息字节长度   |
-| 由上一项决定 | 描述               |
-
---- 
-**带英文词库的索引**
-
-从拼音表的长度往后，依次是 abcd。比如表长 413，最大索引`9D 01`，则下一个索引`9E 01`表示字母 a，依次类推。
-
-`golang` 实现：
-
-```go
     // 读码表
-    for r.Len() > 1 {
+    for count := 0; count < dictLen; {
         // 重码数（同一串音对应多个词）
         tmp := make([]byte, 2)
         r.Read(tmp)
@@ -116,6 +129,7 @@ tags:
         }
 
         // 读取一个或多个词
+        count += repeat
         for i := 1; i <= repeat; i++ {
             // 词长
             r.Read(tmp)
@@ -135,4 +149,7 @@ tags:
             r.Read(info)
         }
     }
+    return ret
+}
+
 ```
