@@ -10,23 +10,42 @@ tags:
 #draft: true
 ---
 
-紫光的词库有点复杂。
+> 详细代码：<https://github.com/cxcn/dtool>
 
-前面是拼音表，但是没有拼音只有索引，应该是写到了程序内部。好在深蓝词库处理工具已经解析好了，这部分就跳过了。
+## 前言
+
+`.uwl` 是紫光拼音输入法（现在叫华宇拼音输入法）使用的词库。
+
+## 解析
+
+紫光的词库有点复杂，拼音用的索引，但是拼音表没有写在词库里。
+
+好在深蓝词库处理工具已经解析好了，这部分就跳过了。
+
+词长和拼音长关系密切，要注意。
+
+中间有不少无效字节，读取时要处理掉。
+
+| 范围        | 描述     |
+| :---------- | :------- |
+| 0x00 - 0x03 | 未知     |
+| 0x04 - 0x23 | 词库名   |
+| 0x24 - 0x43 | 词库作者 |
+| 0x44 - 0x47 | 词条数   |
+
+后面就不知道了，怀疑就是无效字节。
 
 词库偏移 0xC10。
 
 ![](https://tucang.cc/api/image/show/60b7ae73b574e23cef39fe01007299e5)
 
-| 占用字节数 | 描述                                                             |
-| ---------- | ---------------------------------------------------------------- |
-| 1          | 词占用字节 + 1（所以总是奇数），大于 0x80 要减掉，并且下一项要+1 |
-| 1          | 拼音长度的一半，前 4 位（总是偶数）意义不明                      |
-| 2          | 词频                                                             |
-| 由前面决定 | 拼音索引                                                         |
-| 由前面决定 | 词，utf-16le 编码                                                |
-
-> 拼音长度由前 2 字节决定，具体看代码实现
+|     | 占用字节数    | 描述                                          |
+| :-- | :------------ | :-------------------------------------------- |
+| a   | 1             | 词占用字节 + 1（所以总是奇数），可能大于 0x80 |
+| b   | 1             | 拼音长度的一半，前 4 位（总是偶数）意义不明   |
+|     | 2             | 词频                                          |
+|     | 2\*b + a/0x80 | 拼音索引                                      |
+|     | a%0x80 + 1    | 词，utf-16le 编码                             |
 
 词库中有些无效字节，主要是两种。
 
@@ -34,14 +53,13 @@ tags:
 
 另一种 16 字节一组，`6C 1D 00 00 FF FF FF FF F8 00 00 00 F4 01 00 00`
 
-再按 4 个一组，后两位都是 `00 00` 或 `FF FF`（还有 `01 00`）
+再按 4 个一组，后两位都是 `00 00` 或 `FF FF`（还有的是 `01 00`）
 
 去除的判断我直接写的后两字节差 < 2
 
-`golang` 实现：
+**_代码实现：_**
 
 ```go
-
 var uwlSm = []string{
     "", "b", "c", "ch", "d", "f", "g", "h", "j", "k", "l", "m", "n",
     "p", "q", "r", "s", "sh", "t", "w", "x", "y", "z", "zh",
@@ -54,13 +72,11 @@ var uwlYm = []string{
     "ua", "uai", "uan", "uang", "ue", "ui", "un", "uo", "v",
 }
 
-func ParseZiguangUwl(rd io.Reader) []Pinyin {
-    ret := make([]Pinyin, 0, 1e5)
+func ParseZiguangUwl(rd io.Reader) []PyEntry {
+    ret := make([]PyEntry, 0, 1e5)
     data, _ := ioutil.ReadAll(rd)
     r := bytes.NewReader(data)
-
-    // utf-16le 转换器
-    decoder := unicode.UTF16(unicode.LittleEndian, unicode.IgnoreBOM).NewDecoder()
+    var tmp []byte
 
     r.Seek(0xC10, 0)
     for r.Len() > 7 {
@@ -71,16 +87,10 @@ func ParseZiguangUwl(rd io.Reader) []Pinyin {
         if space[0] == 0 && space[1] == 0 {
             continue
         }
-        if space[0]%2 == 0 || // 1字节是偶数
-            space[1]>>4%2 != 0 || // 2字节前4位是奇数
-            space[1]%0x10 == 0 { // 2字节后4位是0
-            r.Seek(14, 1)
-            continue
-        }
         r.Seek(-2, 1) // 回退2字节
 
         // 读 16 字节
-        tmp := make([]byte, 16)
+        tmp = make([]byte, 16)
         r.Read(tmp)
         flag := true // 是否丢弃
         for i := 0; i < 4; i++ {
@@ -100,17 +110,12 @@ func ParseZiguangUwl(rd io.Reader) []Pinyin {
         head := make([]byte, 4)
         r.Read(head)
         // 词长 * 2
-        wordLen := head[0] - 1
+        wordLen := head[0]%0x80 - 1
         // 拼音长
-        codeLen := head[1] % 0x10 * 2
-        if wordLen > 0x80 {
-            wordLen -= 0x80
-            codeLen++
-        }
+        codeLen := head[1]<<4>>4*2 + head[0]/0x80
 
         // 频率
-        freq := bytesToInt(head[2:])
-        // fmt.Println(freqSli, freq)
+        freq := BytesToInt(head[2:])
 
         // 拼音
         code := make([]string, 0, codeLen)
@@ -119,24 +124,25 @@ func ParseZiguangUwl(rd io.Reader) []Pinyin {
             bym, _ := r.ReadByte()
             smIdx := bsm & 0x1F
             ymIdx := (bsm >> 5) + (bym << 3)
-            // fmt.Println(bsm, bym, smIdx, ymIdx)
             if bym >= 0x10 || smIdx >= 24 || ymIdx >= 34 {
                 break
             }
             code = append(code, uwlSm[smIdx]+uwlYm[ymIdx])
-            // fmt.Println(smIdx, ymIdx, uwlSm[smIdx]+uwlYm[ymIdx])
         }
 
         // 词
-        wordSli := make([]byte, wordLen)
-        r.Read(wordSli)
-        word, _ := decoder.Bytes(wordSli)
-        // fmt.Println(string(word))
+        tmp = make([]byte, wordLen)
+        r.Read(tmp)
+        word := string(DecUtf16le(tmp))
 
-        ret = append(ret, Pinyin{string(word), code, freq})
-
+        ret = append(ret, PyEntry{word, code, freq})
     }
     return ret
 }
-
 ```
+
+---
+
+**参考资料：**
+
+[深蓝词库转换](https://github.com/studyzy/imewlconverter)

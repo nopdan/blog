@@ -10,7 +10,11 @@ tags:
 # draft: true
 ---
 
-> 参考了 asd1fque1 的词库处理工具 js 实现
+> 详细代码：<https://github.com/cxcn/dtool>
+
+## 前言
+
+`.def` 是百度手机输入法-更多设置-自定义输入方案所使用的格式。
 
 ## 解析
 
@@ -18,45 +22,37 @@ tags:
 
 ![](https://tucang.cc/api/image/show/3ab4d59dda60d731eb6ddb55c7694bd5)
 
-| 占用字节数     | 描述                                               |
-| -------------- | -------------------------------------------------- |
-| 1              | 编码长度（红色框）                                 |
-| 1              | 词长 \* 2 + 2                                      |
-| 由编码长度决定 | 编码（黄色框），可以是纯编码，也可以是 `编码=位置` |
-| 由词长决定     | 词（绿色框），utf16-le 编码                        |
-| 6              | 6 个空字节代表词条结束                             |
+| #   | 占用字节数 | 描述                                               |
+| --- | ---------- | -------------------------------------------------- |
+| a   | 1          | 编码长度（红色框）                                 |
+| b   | 1          | 词长 \* 2 + 2                                      |
+|     | a          | 编码（黄色框），可以是纯编码，也可以是 `编码=位置` |
+|     | b-2        | 词（绿色框），utf16-le 编码                        |
+|     | 6          | 6 个空字节代表词条结束                             |
 
-`golang` 实现：
+**_代码实现：_**
 
 ```go
-func ParseBaiduDef(rd io.Reader) Dict {
-    ret := make(Dict, 1e5)       // 初始化
-    tmp, _ := ioutil.ReadAll(rd) // 全部读到内存
-    r := bytes.NewReader(tmp)
     r.Seek(0x6D, 0) // 从 0x6D 开始读
-    // utf-16le 转换
-    decoder := unicode.UTF16(unicode.LittleEndian, unicode.IgnoreBOM).NewDecoder()
-    for {
-        codeLen, err := r.ReadByte() // 编码长度
-        wordLen, err := r.ReadByte() // 词长*2 + 2
-        if err != nil {
-            break
-        }
-        sliCode := make([]byte, int(codeLen))
-        sliWord := make([]byte, int(wordLen)-2) // -2 后就是字节长度，没有考虑4字节的情况
+    for r.Len() > 4 {
+        codeLen, _ := r.ReadByte() // 编码长度
+        wordLen, _ := r.ReadByte() // 词长*2 + 2
 
-        r.Read(sliCode) // 编码切片
-        r.Read(sliWord)
+        // 读编码
+        tmp = make([]byte, int(codeLen))
+        r.Read(tmp) // 编码切片
+        code := string(tmp)
+        spl := strings.Split(code, "=") // 直接删掉 = 号后的
+        code = spl[0]
 
-        code := string(sliCode)
-        word, _ := decoder.Bytes(sliWord)
-        ret.insert(strings.Split(code, "=")[0], string(word))
+        // 读词
+        tmp = make([]byte, int(wordLen)-2) // -2 后就是字节长度，没有考虑4字节的情况
+        r.Read(tmp)
+        word := string(DecUtf16le(tmp))
+        ret = append(ret, ZcEntry{word, code})
 
         r.Seek(6, 1) // 6个00，1是相对当前位置
     }
-    return ret
-}
-
 ```
 
 ## 生成
@@ -75,29 +71,28 @@ func ParseBaiduDef(rd io.Reader) Dict {
 
 计算时，统计每个首字母的长度累计，写入时再次累加。
 
-`golang` 实现：
+**_代码实现：_**
 
 ```go
-
-func GenBaiduDef(dl []codeAndWords) []byte {
+func GenBaiduDef(ce []CodeEntry) []byte {
     var buf bytes.Buffer
     // 首字母词条字节数统计
     lengthMap := make(map[byte]int)
     buf.Write(make([]byte, 0x6D, 0x6D))
-    // utf-16le 转换
-    encoder := unicode.UTF16(unicode.LittleEndian, unicode.IgnoreBOM).NewEncoder()
-    for _, v := range dl {
-        code := v.code
-        for i, word := range v.words {
+
+    for _, v := range ce {
+        code := v.Code
+
+        for i, word := range v.Words {
             if i != 0 { // 不在首选的写入位置信息，好像没什么用？
-                code = v.code + "=" + strconv.Itoa(i+1)
+                code = v.Code + "=" + strconv.Itoa(i+1)
             }
-            sliWord, _ := encoder.Bytes([]byte(word)) // 转为utf-16le
-            buf.WriteByte(byte(len(code)))            // 写编码长度
-            buf.WriteByte(byte(len(sliWord) + 2))     // 写词字节长+2
-            buf.WriteString(code)                     // 写编码
-            buf.Write(sliWord)                        // 写词
-            buf.Write([]byte{0, 0, 0, 0, 0, 0})       // 写6个0
+            sliWord := ToUtf16le([]byte(word))    // 转为utf-16le
+            buf.WriteByte(byte(len(code)))        // 写编码长度
+            buf.WriteByte(byte(len(sliWord) + 2)) // 写词字节长+2
+            buf.WriteString(code)                 // 写编码
+            buf.Write(sliWord)                    // 写词
+            buf.Write([]byte{0, 0, 0, 0, 0, 0})   // 写6个0
 
             // 编码长度 + 词字节长 + 6，不包括长度本身占的2个字节
             lengthMap[code[0]] += len(code) + len(sliWord) + 2 + 6
@@ -123,5 +118,14 @@ func GenBaiduDef(dl []codeAndWords) []byte {
     }
     return ret
 }
-
 ```
+
+## 追加
+
+不知道码表编码是否必须按 `ascii` 排序，如果不必要的话，直接在最后追加词条，并把开头对应首字母的字节长度加上。
+
+---
+
+**参考资料**
+
+[DictTool 词库处理工具](https://github.com/asd2fque1/DictTool)
