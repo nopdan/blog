@@ -181,7 +181,7 @@ func ParseSogouScel(rd io.Reader) []PyEntry {
 
 ---
 
-**参考资料**
+**参考资料：**
 
 - [深蓝词库转换](https://github.com/studyzy/imewlconverter)
 - [将搜狗词库(scel)转为 Python 可读的文本](https://zhuanlan.zhihu.com/p/43446135)

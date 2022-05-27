@@ -126,6 +126,6 @@ func GenBaiduDef(ce []CodeEntry) []byte {
 
 ---
 
-**参考资料**
+**参考资料：**
 
 [DictTool 词库处理工具](https://github.com/asd2fque1/DictTool)
