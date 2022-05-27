@@ -16,7 +16,7 @@ tags:
 
 `.scel` 是搜狗拼音输入法所使用的细胞词库格式，可以在 <https://pinyin.sogou.com/dict/> 下载。
 
-`.qcel` 是 QQ 拼音输入法 6.0 以下所用的词库格式，可以在 <http://cdict.qq.pinyin.cn/> 下载。
+`.qcel` 是 QQ 拼音输入法 6.0 以上版本所用的词库格式，可以在 <http://cdict.qq.pinyin.cn/> 下载。
 
 ## 解析
 
