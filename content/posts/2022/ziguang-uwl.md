@@ -26,9 +26,10 @@ tags:
 
 主要词库部分每 1024 字节为一段（分段意义何在？）
 
+前两个字节未知，第 3 个字节表示字符编码格式 0x08 是 GBK，0x09 是 UTF-16LE。
+
 | 范围        | 描述     |
 | :---------- | :------- |
-| 0x00 - 0x03 | 未知     |
 | 0x04 - 0x23 | 词库名   |
 | 0x24 - 0x43 | 词库作者 |
 | 0x44 - 0x47 | 词条数   |
@@ -48,7 +49,7 @@ tags:
 | b   | 1                  | 拼音长度的一半，前 4 位（总是偶数）意义不明   |
 |     | 2                  | 词频                                          |
 |     | b%0x10\*2 + a/0x80 | 拼音索引                                      |
-|     | a%0x80 - 1         | 词，utf-16le 编码                             |
+|     | a%0x80 - 1         | 词                                            |
 
 **_代码实现：_**
 
@@ -69,18 +70,22 @@ func ParseZiguangUwl(rd io.Reader) []PyEntry {
     ret := make([]PyEntry, 0, 1e5)
     data, _ := ioutil.ReadAll(rd)
     r := bytes.NewReader(data)
+    r.Seek(2, 0)
+    // 编码格式，08 为 GBK，09 为 UTF-16LE
+    encoding, _ := r.ReadByte()
 
     // 分段
     r.Seek(0x48, 0)
     partLen := ReadInt(r, 4)
     for i := 0; i < partLen; i++ {
         r.Seek(0xC00+1024*int64(i), 0)
-        ret = parseZgUwlPart(r, ret)
+        ret = parseZgUwlPart(r, ret, encoding)
     }
+
     return ret
 }
 
-func parseZgUwlPart(r *bytes.Reader, ret []PyEntry) []PyEntry {
+func parseZgUwlPart(r *bytes.Reader, ret []PyEntry, e byte) []PyEntry {
     r.Seek(12, 1)
     // 词条占用字节数
     max := ReadInt(r, 4)
@@ -95,6 +100,7 @@ func parseZgUwlPart(r *bytes.Reader, ret []PyEntry) []PyEntry {
         codeLen := head[1]<<4>>4*2 + head[0]/0x80
         // 频率
         freq := BytesToInt(head[2:])
+        // fmt.Println(freqSli, freq)
         curr += int(4 + wordLen + codeLen*2)
 
         // 拼音
@@ -104,16 +110,25 @@ func parseZgUwlPart(r *bytes.Reader, ret []PyEntry) []PyEntry {
             bym, _ := r.ReadByte()
             smIdx := bsm & 0x1F
             ymIdx := (bsm >> 5) + (bym << 3)
+            // fmt.Println(bsm, bym, smIdx, ymIdx)
             if bym >= 0x10 || smIdx >= 24 || ymIdx >= 34 {
                 break
             }
             code = append(code, uwlSm[smIdx]+uwlYm[ymIdx])
+            // fmt.Println(smIdx, ymIdx, uwlSm[smIdx]+uwlYm[ymIdx])
         }
 
         // 词
         tmp := make([]byte, wordLen)
         r.Read(tmp)
-        word := string(DecUtf16le(tmp))
+        var word string
+        switch e {
+        case 0x08:
+            word = string(DecGBK(tmp))
+        case 0x09:
+            word = string(DecUtf16le(tmp))
+        }
+        // fmt.Println(string(word))
         ret = append(ret, PyEntry{word, code, freq})
     }
     return ret
