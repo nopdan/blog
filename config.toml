@@ -180,7 +180,7 @@ enableGitInfo = true
     GitHub = "cxcn"
     Telegram = "cxprc"
     Steam = "unichx"
-    Zhihu = "cheliox"
+    Zhihu = "cxprc"
     Bilibili = "17742771"
     Email = "cxprcn@gmail.com"
     RSS = true
@@ -269,7 +269,7 @@ enableGitInfo = true
       #  Waline 评论系统设置
       [params.page.comment.waline]
         enable = true
-        serverURL = "https://tcb-6g839arke025d0d9-1300362698.ap-shanghai.app.tcloudbase.com/waline"
+        serverURL = "https://wlb.ddbd.cc"
         visitor = true
         # dark = 'body[theme="dark"]'
         dark = 'auto'
@@ -440,6 +440,6 @@ enableGitInfo = true
     weight = 4
   [[menu.main]]
     name = "Rime文档"
-    url = "https://rime.vercel.app/"
+    url = "https://rime.noif.cc/"
     title = ""
     weight = 5
