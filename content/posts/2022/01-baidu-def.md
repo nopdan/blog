@@ -1,5 +1,5 @@
 ---
-title: "输入法词库解析（一）百度自定义方案.def"
+title: '输入法词库解析（一）百度自定义方案.def'
 date: 2022-05-24T15:04:00+08:00
 categories:
   - 输入法
@@ -35,8 +35,8 @@ tags:
 ```go
     r.Seek(0x6D, 0) // 从 0x6D 开始读
     for r.Len() > 4 {
-        codeLen, _ := r.ReadByte() // 编码长度
-        wordLen, _ := r.ReadByte() // 词长*2 + 2
+        codeLen, _ := r.ReadByte()  // 编码长度
+        wordSize, _ := r.ReadByte() // 词长*2 + 2
 
         // 读编码
         tmp = make([]byte, int(codeLen))
@@ -46,10 +46,11 @@ tags:
         code = spl[0]
 
         // 读词
-        tmp = make([]byte, int(wordLen)-2) // -2 后就是字节长度，没有考虑4字节的情况
+        tmp = make([]byte, int(wordSize)-2) // -2 后就是字节长度，没有考虑4字节的情况
         r.Read(tmp)
-        word := string(DecUtf16le(tmp))
-        ret = append(ret, ZcEntry{word, code})
+        word, _ := util.Decode(tmp, "UTF-16LE")
+        // def = append(def, defEntry{word, code, order})
+        ret = append(ret, Entry{word, code, 1})
 
         r.Seek(6, 1) // 6个00，1是相对当前位置
     }
@@ -74,25 +75,26 @@ tags:
 **_代码实现：_**
 
 ```go
-func GenBaiduDef(ce []CodeEntry) []byte {
+func (BaiduDef) Gen(table Table) []byte {
+    jdt := ToJdTable(table)
     var buf bytes.Buffer
     // 首字母词条字节数统计
     lengthMap := make(map[byte]int)
-    buf.Write(make([]byte, 0x6D, 0x6D))
+    buf.Write(make([]byte, 0x6D))
 
-    for _, v := range ce {
+    for _, v := range jdt {
         code := v.Code
 
         for i, word := range v.Words {
             if i != 0 { // 不在首选的写入位置信息，好像没什么用？
                 code = v.Code + "=" + strconv.Itoa(i+1)
             }
-            sliWord := ToUtf16le([]byte(word))    // 转为utf-16le
-            buf.WriteByte(byte(len(code)))        // 写编码长度
-            buf.WriteByte(byte(len(sliWord) + 2)) // 写词字节长+2
-            buf.WriteString(code)                 // 写编码
-            buf.Write(sliWord)                    // 写词
-            buf.Write([]byte{0, 0, 0, 0, 0, 0})   // 写6个0
+            sliWord, _ := util.Encode([]byte(word), "UTF-16LE") // 转为utf-16le
+            buf.WriteByte(byte(len(code)))                      // 写编码长度
+            buf.WriteByte(byte(len(sliWord) + 2))               // 写词字节长+2
+            buf.WriteString(code)                               // 写编码
+            buf.Write(sliWord)                                  // 写词
+            buf.Write([]byte{0, 0, 0, 0, 0, 0})                 // 写6个0
 
             // 编码长度 + 词字节长 + 6，不包括长度本身占的2个字节
             lengthMap[code[0]] += len(code) + len(sliWord) + 2 + 6
@@ -106,23 +108,16 @@ func GenBaiduDef(ce []CodeEntry) []byte {
     var currNum int
     for i := 0; i <= 26; i++ {
         currNum += lengthMap[byte(i+0x60)]
-        // 不知道怎么来的，反正就这样算
-        currBytes := []byte{byte(currNum % 0x100), byte((currNum / 0x100) % 0x100),
-            byte((currNum / 0x10000) % 0x100), byte((currNum / 0x1000000) % 0x100)}
+        currBytes := make([]byte, 4)
+        binary.LittleEndian.PutUint32(currBytes, uint32(currNum))
         byteList = append(byteList, currBytes...)
     }
     // 替换文件头
     ret := buf.Bytes()
-    for i := 0; i < len(byteList); i++ {
-        ret[i] = byteList[i]
-    }
+    copy(ret, byteList)
     return ret
 }
 ```
-
-## 追加
-
-不知道码表编码是否必须按 `ascii` 排序，如果不必要的话，直接在最后追加词条，并把开头对应首字母的字节长度加上。
 
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: "输入法词库解析（五）极点码表.mb"
+title: '输入法词库解析（五）极点码表.mb'
 date: 2022-05-24T22:09:45+08:00
 categories:
   - 输入法
@@ -74,10 +74,10 @@ tags:
 **_代码实现（只读 0x1B620 之后的码表）：_**
 
 ```go
-func ParseJidianMb(rd io.Reader) []ZcEntry {
-    ret := make([]ZcEntry, 0, 1e5) // 初始化
-    data, _ := ioutil.ReadAll(rd)  // 全部读到内存
+func (JidianMb) Parse(filename string) Table {
+    data, _ := os.ReadFile(filename)
     r := bytes.NewReader(data)
+    ret := make(Table, 0, r.Len()>>8)
     var tmp []byte
 
     r.Seek(0x1B620, 0) // 从 0x1B620 开始读
@@ -98,9 +98,9 @@ func ParseJidianMb(rd io.Reader) []ZcEntry {
         // 读词
         tmp = make([]byte, wordLen)
         r.Read(tmp)
-        word := string(DecUtf16le(tmp))
+        word, _ := util.Decode(tmp, "UTF-16LE")
 
-        ret = append(ret, ZcEntry{word, code})
+        ret = append(ret, Entry{word, code, 1})
     }
     return ret
 }

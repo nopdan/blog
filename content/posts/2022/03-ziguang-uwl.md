@@ -1,5 +1,5 @@
 ---
-title: "输入法词库解析（三）紫光拼音词库.uwl"
+title: '输入法词库解析（三）紫光拼音词库.uwl'
 date: 2022-05-24T16:18:55+08:00
 categories:
   - 输入法
@@ -66,29 +66,29 @@ var uwlYm = []string{
     "ua", "uai", "uan", "uang", "ue", "ui", "un", "uo", "v",
 }
 
-func ParseZiguangUwl(rd io.Reader) []PyEntry {
-    ret := make([]PyEntry, 0, 1e5)
-    data, _ := ioutil.ReadAll(rd)
+func (ZiguangUwl) Parse(filename string) Dict {
+    data, _ := os.ReadFile(filename)
     r := bytes.NewReader(data)
+    ret := make(Dict, 0, r.Len()>>8)
     r.Seek(2, 0)
     // 编码格式，08 为 GBK，09 为 UTF-16LE
     encoding, _ := r.ReadByte()
 
     // 分段
     r.Seek(0x48, 0)
-    partLen := ReadInt(r, 4)
+    partLen := ReadUint32(r)
     for i := 0; i < partLen; i++ {
-        r.Seek(0xC00+1024*int64(i), 0)
+        r.Seek(0xC00+int64(i)<<10, 0)
         ret = parseZgUwlPart(r, ret, encoding)
     }
 
     return ret
 }
 
-func parseZgUwlPart(r *bytes.Reader, ret []PyEntry, e byte) []PyEntry {
+func parseZgUwlPart(r *bytes.Reader, ret Dict, e byte) Dict {
     r.Seek(12, 1)
     // 词条占用字节数
-    max := ReadInt(r, 4)
+    max := ReadUint32(r)
     // 当前字节
     curr := 0
     for curr < max {
@@ -124,12 +124,12 @@ func parseZgUwlPart(r *bytes.Reader, ret []PyEntry, e byte) []PyEntry {
         var word string
         switch e {
         case 0x08:
-            word = string(DecGBK(tmp))
+            word, _ = util.Decode(tmp, "GBK")
         case 0x09:
-            word = string(DecUtf16le(tmp))
+            word, _ = util.Decode(tmp, "UTF-16LE")
         }
         // fmt.Println(string(word))
-        ret = append(ret, PyEntry{word, code, freq})
+        ret = append(ret, Entry{word, code, freq})
     }
     return ret
 }
