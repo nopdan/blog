@@ -109,7 +109,7 @@ cacheRemoteImages = false
     enable = true
     rss = true
     days = 30
-    maxCount = 10
+    maxCount = 5
 
 # List (category or tag) page config
 # List (目录或标签) 页面配置
@@ -205,7 +205,7 @@ cacheRemoteImages = false
     copy = true
     # the maximum number of lines of displayed code by default
     # 默认展开显示的代码行数
-    maxShownLines = 20
+    maxShownLines = 50
   # Table config
   # 表格配置
   [page.table]
@@ -216,7 +216,7 @@ cacheRemoteImages = false
     # whether to enable auto header numbering
     # 是否开启标题自动编号
     [page.header.number]
-      enable = true
+      enable = false
       [page.header.number.format]
         h2 = "{h2} {title}"
         h3 = "{h2}.{h3} {title}"
