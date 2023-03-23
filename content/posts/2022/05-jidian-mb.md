@@ -10,7 +10,7 @@ tags:
 # draft: true
 ---
 
-> 详细代码：<https://github.com/cxcn/dtool>
+> 详细代码：<https://github.com/imetool/dtool>
 
 ## 前言
 

@@ -1,4 +1,4 @@
-baseURL = "https://noif.cc/"
+baseURL = "https://nopdan.com/"
 # [en, zh-cn, fr, ...] 设置默认的语言
 defaultContentLanguage = "zh-cn"
 # 网站语言, 仅在这里 CN 大写
@@ -6,7 +6,7 @@ languageCode = "zh-CN"
 # 是否包括中日韩文字
 hasCJKLanguage = true
 # 网站标题
-title = "没有如果"
+title = "单单的个人博客"
 
 # 更改使用 Hugo 构建网站时使用的默认主题
 theme = "DoIt"
@@ -24,7 +24,7 @@ enableGitInfo = true
   # 网站默认主题样式 ("light", "dark", "auto")
   defaultTheme = "auto"
   # 公共 git 仓库路径，仅在 enableGitInfo 设为 true 时有效
-  gitRepo = "https://github.com/cxcn/blog"
+  gitRepo = "https://github.com/nopdan/blog"
   #  哪种哈希函数用来 SRI, 为空时表示不使用 SRI
   # ("sha256", "sha384", "sha512", "md5")
   fingerprint = ""
@@ -38,7 +38,7 @@ enableGitInfo = true
   #  应用图标配置
   [params.app]
     # 当添加到 iOS 主屏幕或者 Android 启动器时的标题, 覆盖默认标题
-    title = "没有如果"
+    title = "nopdan's blog"
     # 是否隐藏网站图标资源链接
     noFavicon = false
     # 更现代的 SVG 网站图标, 可替代旧的 .png 和 .ico 文件
@@ -177,12 +177,12 @@ enableGitInfo = true
 
   # 作者的社交信息设置
   [params.social]
-    GitHub = "cxcn"
-    Telegram = "cxprc"
+    GitHub = "nopdan"
+    Telegram = "nopdan"
     Steam = "unichx"
     Zhihu = "cxprc"
     Bilibili = "17742771"
-    Email = "cxprcn@gmail.com"
+    Email = "me@nopdan.com"
     RSS = true
 
   #  文章页面配置
@@ -269,7 +269,7 @@ enableGitInfo = true
       #  Waline 评论系统设置
       [params.page.comment.waline]
         enable = true
-        serverURL = "https://wlb.ddbd.cc"
+        serverURL = "https://waline-blog-eight.vercel.app/"
         visitor = true
         # dark = 'body[theme="dark"]'
         dark = 'auto'
@@ -292,9 +292,9 @@ enableGitInfo = true
 
   # 赞赏配置
   [params.sponsor]
-    enable = false
+    enable = true
     bio = "如果你觉得这篇文章对你有所帮助，欢迎赞赏~"
-    link = "https://www.buymeacoffee.com" # 你的赞赏页面的地址
+    link = "https://paypal.me/nopdan" # 你的赞赏页面的地址
     custom = "" # 自定义 HTML 
 
   #  TypeIt 配置
@@ -366,7 +366,7 @@ enableGitInfo = true
 [author]
   name = "单单"
   email = "cxprcn@gmail.com"
-  link = "https://noif.cc/"
+  link = "https://nopdan.com/"
 
 # 网站地图配置
 [sitemap]
@@ -440,6 +440,6 @@ enableGitInfo = true
     weight = 4
   [[menu.main]]
     name = "Rime文档"
-    url = "https://rime.noif.cc/"
+    url = "https://rime.vercel.app/"
     title = ""
     weight = 5
