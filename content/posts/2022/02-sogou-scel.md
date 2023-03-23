@@ -7,6 +7,7 @@ tags:
   - 输入法
   - 词库
   - 二进制
+series: [lexicon]
 # draft: true
 ---
 
