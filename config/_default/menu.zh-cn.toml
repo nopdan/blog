@@ -51,10 +51,18 @@
   identifier = ""
   pre = ""
   post = ""
+  name = "分享站"
+  url = "https://pan.nopdan.com/"
+  title = ""
+  weight = 6
+[[main]]
+  identifier = ""
+  pre = ""
+  post = ""
   name = "Rime 文档"
   url = "https://rime.vercel.app/"
   title = ""
-  weight = 6
+  weight = 7
 # [[main]]
 #   identifier = "github"
 #   pre = "<i class='fab fa-github fa-fw'></i>"
