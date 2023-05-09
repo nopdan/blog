@@ -59,8 +59,8 @@
   identifier = ""
   pre = ""
   post = ""
-  name = "Rime 文档"
-  url = "https://rime.vercel.app/"
+  name = "文档站"
+  url = "https://docs.nopdan.com/"
   title = ""
   weight = 7
 # [[main]]
