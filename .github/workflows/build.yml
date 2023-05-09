@@ -10,7 +10,7 @@ env:
 
 jobs:
   build_deploy:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout # 获取源代码
         uses: actions/checkout@v3
