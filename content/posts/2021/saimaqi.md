@@ -8,7 +8,7 @@ tags:
   - 输入法
 ---
 
-> github 项目地址：<https://github.com/imetool/gosmq/>
+> github 项目地址：<https://github.com/flowerime/gosmq/>
 
 ![](https://i.loli.net/2021/11/26/Fo4VJKqvyPjRWND.png)
 
