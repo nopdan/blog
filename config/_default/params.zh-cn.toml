@@ -83,7 +83,7 @@ keywords = ["编程", "输入法"]
     title = ""
     # subtitle shown in home page
     # 主页显示的网站副标题
-    subtitle = "但知行好事，莫要问前程。"
+    subtitle = "悟已往之不谏，知来者之可追。"
     # whether to use typeit animation for subtitle
     # 是否为副标题显示打字机动画
     typeit = true
