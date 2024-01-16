@@ -44,7 +44,7 @@ toc: false
 // 以下为样例内容，按照格式可以随意修改
 var myFriends = [
     ["https://blog.weearc.top/", "https://blog.weearc.top/image/face.ico", "@weearc", "相离相惜莫相忘，且行且歌且珍惜"],
-    ["https://purefkh.xyz/", "https://purefkh-blog-1256555660.cos.ap-chengdu.myqcloud.com/blog/img/avatar.jpeg", "@purefkh", "Fiat Lux."],
+    ["https://www.yunyitang.me/zh/", "https://www.yunyitang.me/img/Avatar.png", "Yunyi’s Blog", "Little squirrel Hopping around"],
     ["https://rea.ink/", "https://rea.ink/logo.png", "@倾书", "清风皓月，光景常新"],
     ["https://thiscute.world/", "https://thiscute.world/avatar/myself.jpg", "@Ryan4Yin", "我错过花，却看见海。"],
     
