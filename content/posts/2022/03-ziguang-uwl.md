@@ -11,7 +11,7 @@ series: [lexicon]
 #draft: true
 ---
 
-> 详细代码：<https://github.com/flowerime/rose>
+> 详细代码：<https://github.com/nopdan/rose>
 
 ## 前言
 
