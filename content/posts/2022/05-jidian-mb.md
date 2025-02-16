@@ -11,11 +11,9 @@ series: [lexicon]
 # draft: true
 ---
 
-> 详细代码：<https://github.com/nopdan/rose>
-
-## 前言
-
 `mb` 是极点五笔的码表格式。
+
+<!--more-->
 
 ## 解析
 

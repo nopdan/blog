@@ -9,7 +9,7 @@ date: 2019-11-21
 
 Win 10 的 UWP 应用 (应用商店下载的 APP)，默认是不走代理的 (沙盒的网络隔离特性：禁止 APP 访问 localhost)，也就无法在中国使用像 Facebook 一样无法访问或者直接链接特别慢的 APP。
 
-<!-- more -->
+<!--more-->
 
 ## 一、CheckNetIsolation
 

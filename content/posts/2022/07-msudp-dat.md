@@ -11,11 +11,9 @@ series: [lexicon]
 # draft: true
 ---
 
-> 详细代码：<https://github.com/nopdan/rose>
-
-## 前言
-
 微软拼音和微软五笔通用的用户自定义短语 dat 格式。
+
+<!--more-->
 
 ## 解析
 

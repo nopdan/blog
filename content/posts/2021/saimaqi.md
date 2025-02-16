@@ -10,6 +10,8 @@ tags:
 
 > github 项目地址：<https://github.com/nopdan/gosmq/>
 
+<!--more-->
+
 ![](https://i.loli.net/2021/11/26/Fo4VJKqvyPjRWND.png)
 
 ![](https://i.loli.net/2021/11/26/3kyp7ZtRhwKONoc.png)
@@ -20,6 +22,8 @@ tags:
   > 目前最流行的赛码器「极速赛码器」对系统资源利用极低，内存只用到 10 多 MB，cpu 占用百分之几，速度极慢，10w 字文章要几十秒，上百万文章基本不可用。
 - 练习 go 语言
   > 这是我用 go 语言写的第一个项目
+
+<!--more-->
 
 ## 技术
 

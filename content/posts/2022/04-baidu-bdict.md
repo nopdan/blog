@@ -11,11 +11,11 @@ series: [lexicon]
 # draft: true
 ---
 
-## 前言
-
 `.bdict` 是百度的分类词库格式，可以在 <https://shurufa.baidu.com/dict> 下载。
 
 手机百度的分类词库格式 `.bcd` 是一样的，可以在 <https://mime.baidu.com/web/iw/index/> 下载。
+
+<!--more-->
 
 ## 解析
 

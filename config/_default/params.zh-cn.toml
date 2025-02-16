@@ -62,6 +62,13 @@ keywords = ["编程", "输入法"]
     ignoreLocation = false
     useExtendedSearch = false
     ignoreFieldNorm = false
+  [search.pagefind]
+    # https://pagefind.app/docs/search-config/#available-options
+    # run `npx pagefind --site $YOUR_PUBLIC_DIR` after site build to create pagefind index
+    termFrequency = 1.0
+    pageLength = 0.75
+    termSimilarity = 1.0
+    termSaturation = 1.4
 # Home page config
 # 主页信息设置
 [home]
@@ -114,7 +121,7 @@ keywords = ["编程", "输入法"]
   Devto = ""
   Douban = ""
   Dribbble = ""
-  Email = "me@nopdan.com"
+  Email = "xci@live.com"
   Facebook = ""
   Fivehundredpx = ""
   Flickr = ""
@@ -177,7 +184,6 @@ keywords = ["编程", "输入法"]
   # [social.Diaspora]
   #   id = "@xxxx"
   #   prefix = "https://yyyy/"
-
 # Sponsor config
 # 赞助设置
 [sponsor]

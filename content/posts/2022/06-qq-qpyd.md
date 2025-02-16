@@ -11,13 +11,11 @@ series: [lexicon]
 # draft: true
 ---
 
-> 详细代码：<https://github.com/nopdan/rose>
-
-## 前言
-
 `.qpyd` 是 QQ 拼音输入法 6.0 以下版本所用的词库格式，可以在 <http://cdict.qq.pinyin.cn/v1/> 下载。
 
 该格式解析的主要难点是其使用了 zlib 压缩，解压后的数据很好解析。
+
+<!--more-->
 
 ## 解析
 

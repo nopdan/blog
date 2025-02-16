@@ -11,11 +11,9 @@ series: [lexicon]
 #draft: true
 ---
 
-> 详细代码：<https://github.com/nopdan/rose>
-
-## 前言
-
 `.uwl` 是紫光拼音输入法（现在叫华宇拼音输入法）使用的词库。
+
+<!--more-->
 
 ## 解析
 

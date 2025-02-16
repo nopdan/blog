@@ -10,7 +10,7 @@ sidebar: false
 
 ssh-keygen 主要用于为 ssh(远程登录程序) 生成、管理和转换验证密钥。ssh-keygen 可以创建供 SSH 协议版本 1 使用的 RSA 密钥，以及供 SSH 协议版本 2 使用的 RSA 或 DSA 密钥。生成的密钥类型使用 -t 选项指定。
 
-<!-- more -->
+<!--more-->
 
 ssh-keygen 它支持 RSA 和 DSA 两种认证密钥，下面是的一些注意参数（可以使用 ssh-keygen /? 看看参数信息）：
 

@@ -11,11 +11,9 @@ series: [lexicon]
 # draft: true
 ---
 
-> 详细代码：<https://github.com/nopdan/rose>
-
-## 前言
-
 `.def` 是百度手机输入法-更多设置-自定义输入方案所使用的格式。
+
+<!--more-->
 
 ## 解析
 
