@@ -364,7 +364,7 @@ gravatarEmail = "xci@live.com"
     # Waline comment config (https://waline.js.org)
     # Waline 评论系统设置 (https://waline.js.org)
     [page.comment.waline]
-      enable = true
+      enable = false
       serverURL = "https://waline-blog-eight.vercel.app/"
       pageview = true
       comment = true
@@ -441,12 +441,12 @@ gravatarEmail = "xci@live.com"
     # giscus comment config (https://giscus.app/)
     # giscus comment 评论系统设置 (https://giscus.app/)
     [page.comment.giscus]
-      enable = false
+      enable = true
       # owner/repo
-      dataRepo = ""
-      dataRepoId = ""
-      dataCategory = ""
-      dataCategoryId = ""
+      dataRepo = "nopdan/nopdan.github.io"
+      dataRepoId = "MDEwOlJlcG9zaXRvcnkzOTYzNTIyMjU="
+      dataCategory = "Announcements"
+      dataCategoryId = "DIC_kwDOF5_a4c4CnCIQ"
       dataMapping = "pathname"
       dataStrict = "0"
       dataReactionsEnabled = "1"
@@ -454,7 +454,7 @@ gravatarEmail = "xci@live.com"
       dataInputPosition = "bottom"
       lightTheme = "light"
       darkTheme = "dark"
-      dataLang = "en"
+      dataLang = "zh-CN"
   # Third-party library config
   # 第三方库配置
   [page.library]
