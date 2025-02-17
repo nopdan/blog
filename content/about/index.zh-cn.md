@@ -38,7 +38,7 @@ toc: false
     作者: @单单
     站点地址：https://nopdan.com/
     个人形象：https://nopdan.com/avatar.webp
-    站点描述：但知行好事，莫要问前程
+    站点描述：悟已往之不谏，知来者之可追。
 
 <script type="text/javascript">
 // 以下为样例内容，按照格式可以随意修改
