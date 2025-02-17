@@ -4,7 +4,7 @@ baseURL = "https://nopdan.com"
 defaultContentLanguage = "zh-cn"
 # website title
 # 网站标题
-title = "单单的个人博客"
+title = "nopdan's blog"
 
 # whether to use robots.txt
 # 是否使用 robots.txt

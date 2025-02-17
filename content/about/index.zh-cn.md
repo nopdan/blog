@@ -35,7 +35,7 @@ toc: false
 可在评论区提交友链申请，格式如下：
 
     站点名称：nopdan's blog
-    作者: @单单
+    作者: @nopdan
     站点地址：https://nopdan.com/
     个人形象：https://nopdan.com/avatar.webp
     站点描述：悟已往之不谏，知来者之可追。

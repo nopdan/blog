@@ -1,6 +1,6 @@
 # website title
 # 网站标题
-title = "单单的个人博客"
+title = "nopdan's blog"
 # DoIt theme version
 # DoIt 主题版本
 version = "0.3.X"
@@ -31,7 +31,7 @@ bundle = false
 # Author config
 # 作者配置
 [author]
-name = "单单"
+name = "nopdan"
 email = "xci@live.com"
 link = "https://nopdan.com"
 avatar = "/avatar.webp"
