@@ -1,7 +1,7 @@
 ---
 title: Scoop | windows上的包管理神器
 categories:
-  - 分享
+  - 笔记
 tags:
   - windows
   - 工具
